@@ -37,18 +37,31 @@
 
 ---
 
-## 🚀 Gemini CLI Usage
+## 🚀 Antigravity 2.0 Plugin Usage
 
-This repository is structured as a Gemini CLI extension. When installed, it provides specialized skills for each Google Workspace service, ensuring high context efficiency and superior task performance.
+This repository has been adapted into an **Antigravity 2.0 Plugin**. It provides specialized skills for each Google Workspace service, ensuring high context efficiency and superior task performance.
+
+### 🙏 Acknowledgements
+A huge thank you to the original maintainer, **[Taylor Wilsdon](https://github.com/taylorwilsdon)**, and the contributors of the original [workspace-mcp](https://github.com/taylorwilsdon/google_workspace_mcp) repository. This fork builds upon their incredible work to bring these capabilities to the Antigravity ecosystem.
 
 ### Installation
 
 ```bash
-gemini extensions install path/to/this/repo
+agy plugins install path/to/this/repo
 ```
 
+### 🧠 Skills Architecture: Claude Code vs. Antigravity 2.0
+
+The original repository was structured to be **Claude Code friendly**, where skills were stored as plain markdown files (e.g., `gmail.md`) in a flat directory, which Claude Code loads in bulk.
+
+To optimize for **Antigravity 2.0**, we've restructured the skills into a modular, lazy-loaded format:
+- **Claude Code Format**: `skills/managing-google-workspace/references/gmail.md`
+- **Antigravity 2.0 Format**: `skills/gmail/SKILL.md`
+
+By breaking the monolithic structure into individual directories with strict `SKILL.md` entry points, Antigravity 2.0 can lazy-load **only** the specific skill required for a task (e.g., loading only Gmail instructions when reading emails). This significantly improves execution speed and saves valuable token context window space!
+
 ### Key Features
-- **Granular Skills**: Activate specific skills like `gmail`, `google-drive`, or `google-docs` to load only the relevant tool documentation and workflows.
+- **Granular Skills**: Activate specific skills like `gmail`, `google-drive`, or `google-docs` to dynamically load relevant tool documentation and workflows.
 - **Behavioral Guidance**: Includes a `WORKSPACE-Context.md` that guides the agent on safety, transparency, and smart tool usage.
 - **Comprehensive Tools**: Over 110 tools covering the entire Google Workspace suite, including Apps Script and Custom Search.
 
