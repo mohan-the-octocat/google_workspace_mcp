@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/Users/mohansridharan/repos/google_workspace_mcp",
+        "python",
+        "/Users/mohansridharan/repos/google_workspace_mcp/main.py"
+      ],
+      "cwd": "/Users/mohansridharan/repos/google_workspace_mcp"
+    }
+  }
+}
