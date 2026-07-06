@@ -1,0 +1,18 @@
+{
+  "name": "google-workspace-mcp",
+  "version": "1.22.0",
+  "description": "Comprehensive control over Google Workspace services through natural language.",
+  "mcpServers": {
+    "google-workspace": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${pluginPath}",
+        "python",
+        "${pluginPath}/main.py"
+      ],
+      "cwd": "${pluginPath}"
+    }
+  }
+}

@@ -37,6 +37,23 @@
 
 ---
 
+## 🚀 Gemini CLI Usage
+
+This repository is structured as a Gemini CLI extension. When installed, it provides specialized skills for each Google Workspace service, ensuring high context efficiency and superior task performance.
+
+### Installation
+
+```bash
+gemini extensions install path/to/this/repo
+```
+
+### Key Features
+- **Granular Skills**: Activate specific skills like `gmail`, `google-drive`, or `google-docs` to load only the relevant tool documentation and workflows.
+- **Behavioral Guidance**: Includes a `WORKSPACE-Context.md` that guides the agent on safety, transparency, and smart tool usage.
+- **Comprehensive Tools**: Over 110 tools covering the entire Google Workspace suite, including Apps Script and Custom Search.
+
+---
+
 <div align="center">
 <table>
 <tr>
