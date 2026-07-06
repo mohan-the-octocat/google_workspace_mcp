@@ -1,0 +1,58 @@
+{
+  "name": "google-workspace-mcp",
+  "version": "1.21.2",
+  "description": "Comprehensive control over Google Workspace services through natural language (Gmail, Drive, Calendar, Docs, Sheets, Slides, Forms, Tasks, Contacts, Chat, and Apps Script).",
+  "contextFileName": "GEMINI.md",
+  "settings": [
+    {
+      "name": "Google OAuth Client ID",
+      "description": "Your Google OAuth client ID from Google Cloud Console.",
+      "envVar": "GOOGLE_OAUTH_CLIENT_ID",
+      "sensitive": true
+    },
+    {
+      "name": "Google OAuth Client Secret",
+      "description": "Your Google OAuth client secret from Google Cloud Console.",
+      "envVar": "GOOGLE_OAUTH_CLIENT_SECRET",
+      "sensitive": true
+    },
+    {
+      "name": "User Google Email",
+      "description": "Default email for single-user mode.",
+      "envVar": "USER_GOOGLE_EMAIL",
+      "sensitive": false
+    },
+    {
+      "name": "Google PSE API Key",
+      "description": "API key for Google Programmable Search Engine.",
+      "envVar": "GOOGLE_PSE_API_KEY",
+      "sensitive": true
+    },
+    {
+      "name": "Google PSE Engine ID",
+      "description": "Engine ID for Google Programmable Search Engine.",
+      "envVar": "GOOGLE_PSE_ENGINE_ID",
+      "sensitive": false
+    },
+    {
+      "name": "OAuth Insecure Transport",
+      "description": "Allow OAuth over HTTP for development (enable for development only). Set to 1 to enable.",
+      "envVar": "OAUTHLIB_INSECURE_TRANSPORT",
+      "sensitive": false,
+      "default": "1"
+    }
+  ],
+  "mcpServers": {
+    "google-workspace": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${extensionPath}",
+        "python",
+        "${extensionPath}${/}main.py"
+      ],
+      "cwd": "${extensionPath}"
+    }
+  }
+}
