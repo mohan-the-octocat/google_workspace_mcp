@@ -12,7 +12,7 @@
 
 *Full natural language control over Google Calendar, Drive, Gmail, Docs, Sheets, Slides, Forms, Tasks, Contacts, and Chat through all MCP clients, AI assistants and developer tools.*
 
-*Includes a full featured CLI & Code Mode for use with tools like Claude Code and Codex!*
+*Includes a full featured CLI & Code Mode for use with tools like Codex!*
 
 **The most feature-complete Google Workspace MCP server**, it can do things that Google's own tooling and the built in integrations with Claude and ChatGPT can't even dream of. With Remote OAuth2.1 multi-user support, fine-grained editing tools and the most extensive coverage of any Google Workspace tool in existance, Workspace MCP is in a different class. Offering native OAuth 2.1, stateless mode and external auth server support, it's also the only Workspace MCP you can host for your whole organization centrally & securely!
 
@@ -50,12 +50,12 @@ A huge thank you to the original maintainer, **[Taylor Wilsdon](https://github.c
 agy plugins install path/to/this/repo
 ```
 
-### 🧠 Skills Architecture: Claude Code vs. Antigravity 2.0
+### 🧠 Skills Architecture: Original vs. Antigravity 2.0
 
-The original repository was structured to be **Claude Code friendly**, where skills were stored as plain markdown files (e.g., `gmail.md`) in a flat directory, which Claude Code loads in bulk.
+The original repository was structured to be friendly for bulk-loading agents, where skills were stored as plain markdown files (e.g., `gmail.md`) in a flat directory, which the agent loads all at once.
 
 To optimize for **Antigravity 2.0**, we've restructured the skills into a modular, lazy-loaded format:
-- **Claude Code Format**: `skills/managing-google-workspace/references/gmail.md`
+- **Original Format**: `skills/managing-google-workspace/references/gmail.md`
 - **Antigravity 2.0 Format**: `skills/gmail/SKILL.md`
 
 By breaking the monolithic structure into individual directories with strict `SKILL.md` entry points, Antigravity 2.0 can lazy-load **only** the specific skill required for a task (e.g., loading only Gmail instructions when reading emails). This significantly improves execution speed and saves valuable token context window space!
@@ -87,8 +87,8 @@ By breaking the monolithic structure into individual directories with strict `SK
 <td align="center">
 <b>🔌 Connect</b><br>
 <sub>
-<a href="#quick-start--connect-claude-to-google-workspace">Quick Start</a> · <a href="#connect-to-claude-desktop">Claude Desktop</a><br>
-<a href="#claude-code-mcp-client-support">Claude Code</a> · <a href="#vs-code-mcp-client-support">VS Code</a> · <a href="#connect-to-lm-studio">LM Studio</a>
+<a href="#quick-start--connect-to-google-workspace">Quick Start</a> · <a href="#connect-to-claude-desktop">Claude Desktop</a><br>
+<a href="#vs-code-mcp-client-support">VS Code</a> · <a href="#connect-to-lm-studio">LM Studio</a>
 </sub>
 </td>
 <td align="center">
@@ -107,11 +107,6 @@ By breaking the monolithic structure into individual directories with strict `SK
 </td>
 </tr>
 </table>
-</div>
-
-**See it in action:**
-<div align="center">
-  <video width="400" src="https://github.com/user-attachments/assets/a342ebb4-1319-4060-a974-39d202329710"></video>
 </div>
 
 ---
@@ -324,13 +319,9 @@ uv run main.py --transport streamable-http --tools gmail drive calendar
 
 ---
 
-### Quick Start — Connect Claude to Google Workspace
+### Quick Start — Connect to Google Workspace
 
-The recommended setup is to run an instance and connect Claude to it via a **Connector**. Full instructions at **[workspacemcp.com/quick-start](https://workspacemcp.com/quick-start)**.
-
-<div align="center">
-  <video width="832" src="https://github.com/user-attachments/assets/83cca4b3-5e94-448b-acb3-6e3a27341d3a"></video>
-</div>
+The recommended setup is to run an instance and connect to it via a **Connector**. Full instructions at **[workspacemcp.com/quick-start](https://workspacemcp.com/quick-start)**.
 
 ---
 
@@ -458,7 +449,7 @@ export GOOGLE_PSE_ENGINE_ID=\
 
 ### Start the Server
 
-> **📌 Transport Mode Guidance**: Use **streamable HTTP mode** (`--transport streamable-http`) for all modern MCP clients including Claude Code, VS Code MCP, and MCP Inspector. For Claude Desktop, run an instance and connect via a [Connector](https://workspacemcp.com/quick-start). Stdio mode is a legacy fallback. For deployments, prefer OAuth 2.1 with stateless mode (`MCP_ENABLE_OAUTH21=true`, `WORKSPACE_MCP_STATELESS_MODE=true`) unless you need local attachment or credential storage.
+> **📌 Transport Mode Guidance**: Use **streamable HTTP mode** (`--transport streamable-http`) for all modern MCP clients including VS Code MCP and MCP Inspector. For Claude Desktop, run an instance and connect via a [Connector](https://workspacemcp.com/quick-start). Stdio mode is a legacy fallback. For deployments, prefer OAuth 2.1 with stateless mode (`MCP_ENABLE_OAUTH21=true`, `WORKSPACE_MCP_STATELESS_MODE=true`) unless you need local attachment or credential storage.
 
 > **OAuth state safety**: Legacy stdio starts a local-only OAuth callback server. In single-user mode only, it may recover a missing Google `state` parameter by consuming the most recent pending local OAuth state. This fallback is intentionally disabled outside single-user mode because it can cross session boundaries. Do not enable or emulate this behavior in streamable HTTP, hosted, or multi-user deployments; those modes must require an explicit state match.
 
@@ -556,7 +547,7 @@ The `WORKSPACE_MCP_TOOLS`, `WORKSPACE_MCP_TOOL_TIER`, `WORKSPACE_MCP_READ_ONLY`,
 WORKSPACE_MCP_HTTP_PORT=8001 uv run main.py
 workspace-cli --url http://127.0.0.1:8001/mcp list
 ```
-The sidecar is disabled unless `WORKSPACE_MCP_HTTP_PORT` is set. It only exists to bridge local `workspace-cli` calls into a legacy stdio server. Do not use it for normal Claude Code, VS Code, hosted, or multi-user deployments; use streamable HTTP with OAuth 2.1 instead. When enabled, it validates ports in the `1..65535` range, binds to `127.0.0.1`, and logs a warning if the port is already in use while keeping stdio running.
+The sidecar is disabled unless `WORKSPACE_MCP_HTTP_PORT` is set. It only exists to bridge local `workspace-cli` calls into a legacy stdio server. Do not use it for normal VS Code, hosted, or multi-user deployments; use streamable HTTP with OAuth 2.1 instead. When enabled, it validates ports in the `1..65535` range, binds to `127.0.0.1`, and logs a warning if the port is already in use while keeping stdio running.
 
 **★ Tool Tiers**
 ```bash
@@ -1197,7 +1188,7 @@ By default, any client going through Dynamic Client Registration can declare any
 # Public deployment — restrict to Claude's hosted OAuth callbacks
 export WORKSPACE_MCP_ALLOWED_CLIENT_REDIRECT_URIS="https://claude.ai/api/mcp/auth_callback,https://claude.com/api/mcp/auth_callback"
 
-# Add Claude Code CLI (loopback redirects on ephemeral ports)
+# Add local CLI loopback redirects on ephemeral ports
 export WORKSPACE_MCP_ALLOWED_CLIENT_REDIRECT_URIS="https://claude.ai/api/mcp/auth_callback,https://claude.com/api/mcp/auth_callback,http://localhost:*/callback,http://127.0.0.1:*/callback"
 ```
 
@@ -1237,8 +1228,6 @@ This mode is ideal for:
 - Serverless functions and ephemeral compute environments
 
 **MCP Inspector**: No additional configuration needed with desktop OAuth client.
-
-**Claude Code**: No additional configuration needed with desktop OAuth client.
 
 ### OAuth Proxy Storage Backends
 
@@ -1410,30 +1399,6 @@ export DWD_ALLOWED_DOMAINS="corp.com,subsidiary.io"
 > **Origin validation**: VS Code webview clients send a `vscode-webview://<extension-id>` origin, which is rejected by default. Add the specific origin to `OAUTH_ALLOWED_ORIGINS` (e.g. `OAUTH_ALLOWED_ORIGINS=vscode-webview://your.extension-id`) to permit it. Connections to a `localhost`/`127.0.0.1` URL are allowed without extra configuration.
 </details>
 
-### Claude Code MCP Client Support
-
-> **✅ Recommended**: Claude Code is a modern MCP client that properly supports the full MCP specification. **Always use HTTP transport mode** with Claude Code for proper OAuth 2.1 authentication and multi-user support.
-
-<details open>
-<summary>🆚 <b>Claude Code Configuration</b> <sub><sup>← Setup for Claude Code MCP support</sup></sub></summary>
-
-```bash
-# Start the server in HTTP mode first
-export MCP_ENABLE_OAUTH21=true
-export GOOGLE_OAUTH_CLIENT_ID="..."
-uv run main.py --transport streamable-http
-
-# Then add to Claude Code
-claude mcp add --transport http workspace-mcp http://localhost:8000/mcp
-
-# Optional: install the bundled Claude skill for better Workspace tool routing
-mkdir -p ~/.claude/skills
-ln -s "$(pwd)/skills/managing-google-workspace" ~/.claude/skills/managing-google-workspace
-```
-
-Or copy `skills/managing-google-workspace` into `~/.claude/skills/managing-google-workspace` if you prefer not to symlink it.
-</details>
-
 #### Reverse Proxy Setup
 
 If you're running the MCP server behind a reverse proxy (nginx, Apache, Cloudflare, etc.), you have two configuration options:
@@ -1462,7 +1427,7 @@ You also have options for:
 - The redirect URI must exactly match what's configured in your Google Cloud Console
 - Your reverse proxy must forward OAuth-related requests (`/oauth2callback`, `/oauth2/*`, `/.well-known/*`) to the MCP server
 - Do **not** set `Referrer-Policy: no-referrer` on your proxy. It makes browsers send `Origin: null` on the same-origin consent `POST`, which origin validation rejects with `{"error": "Origin not allowed"}` (logged as `Rejected HTTP request from Origin: null`) even when `WORKSPACE_EXTERNAL_URL` is correct. Use `strict-origin-when-cross-origin` (the browser default) or `same-origin` instead.
-- Some clients send `Origin: null` on the consent `POST` even with correct headers — Chrome serializes the form origin as opaque after the cross-origin OAuth redirect chain (seen with the Claude Code CLI flow). If you hit this, strip **only** a literal `null` `Origin` for the `/consent` endpoint. The consent endpoint is CSRF-protected by its unguessable `txn_id`, and nginx sends the empty-valued `Origin` header as an empty value that ASGI decodes to `b""`; the middleware validates only when `raw_origin` is truthy, so empty bytes skip this request while real origins still pass through and get validated:
+- Some clients send `Origin: null` on the consent `POST` even with correct headers — Chrome serializes the form origin as opaque after the cross-origin OAuth redirect chain. If you hit this, strip **only** a literal `null` `Origin` for the `/consent` endpoint. The consent endpoint is CSRF-protected by its unguessable `txn_id`, and nginx sends the empty-valued `Origin` header as an empty value that ASGI decodes to `b""`; the middleware validates only when `raw_origin` is truthy, so empty bytes skip this request while real origins still pass through and get validated:
 
   ```nginx
   location ^~ /consent {
